@@ -1,0 +1,30 @@
+:root {
+    --bg: #0e1014;
+    --panel: #12151b;
+    --line: #20242c;
+    --text: #e8eaee;
+    --muted: #9aa1ae;
+    --accent: #ff4d5e;
+    --taken: #3a3d46;
+    --surface: #181b22;
+    --surface-2: #232733;
+    --border-2: #2a2e37;
+    --overlay: rgba(14, 16, 20, 0.85);
+    --ring: #fff;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: system-ui, sans-serif;
+}
+
+button {
+    font: inherit;
+    cursor: pointer;
+}

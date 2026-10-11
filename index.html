@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Venue Ticketing</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="logo">Tick <span>IT</span></div>
+        <div id="topCart">Cart: 0 · 0 ₼</div>
+    </header>
+
+    <main class="page">
+        <h1>Concert Hall — Main Stage</h1>
+
+        <div class="layout">
+            <section class="map" id="map">
+                <div class="map-inner" id="mapInner">
+                    <div class="stage">STAGE</div>
+
+                    <div id="seatsRoot">
+                        <!-- added by js -->
+                    </div>
+                </div>
+            </section>
+
+            <aside class="side">
+                <div class="card">
+                    <h2>Seat details</h2>
+                    
+                    <div id="seatTitle" class="big">No seat selected</div>
+                    <div id="seatSub">Pick a seat on the map.</div>
+
+                    <button id="addBtn" class="primary" disabled>Add to cart</button>
+                </div>
+
+                <div class="card">
+                    <h2>Your tickets</h2>
+
+                    <ul id="cartList">
+
+                    </ul>
+
+                    <div class="total">
+                        <span>Total</span>
+                        <span id="total">0 ₼</span>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
