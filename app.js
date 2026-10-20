@@ -102,4 +102,82 @@ function buildVenue() {
     });
 }
 
+const $ = (id) => document.getElementById(id);
+
+function render() {
+    Object.values(seats).forEach((s) => {
+        s.el.classList.toggle("taken", s.taken);
+        s.el.classList.toggle("in-cart", state.cart.includes(s.id));
+        s.el.classList.toggle("inspected", state.inspected === s.id);
+        s.el.disabled = false;
+    });
+
+    const seat = seats[state.inspected];
+    const addBtn = $("addBtn");
+
+    if (!seat) {
+        $("seatTitle").textContent = "No seat selected";
+        $("seatSub").textContent = "Pick a seat on the map.";
+
+        addBtn.textContent = "Add to cart";
+        addBtn.disabled = true;
+    } else {
+        $("seatTitle").textContent =
+            `${seat.section} · Row ${seat.row} · Seat ${seat.col}`;
+
+        $("seatSub").textContent = seat.taken
+            ? "Unavailable"
+            : `${seat.price} ₼`;
+
+        const inCart = state.cart.includes(seat.id);
+
+        addBtn.textContent = seat.taken
+            ? "Unavailable"
+            : inCart
+                ? "Already in cart"
+                : "Add to cart";
+
+        addBtn.disabled = seat.taken || inCart;
+    }
+
+    const list = $("cartList");
+
+    list.innerHTML = "";
+
+    let total = 0;
+
+    state.cart.forEach((id) => {
+        const s = seats[id];
+
+        total += s.price;
+
+        const li = document.createElement("li");
+
+        li.innerHTML = `<span><strong>${id}</strong><br><small>${s.section}</small></span>`;
+
+        const price = document.createElement("span");
+        price.textContent = `${s.price} ₼`;
+
+        const rm = document.createElement("button");
+        rm.className = "remove";
+        rm.textContent = "✕";
+
+        rm.setAttribute("aria-label", `Remove ${id}`);
+
+        rm.addEventListener("click", () => removeFromCart(id));
+
+        li.append(price, rm);
+
+        list.prepend(li);
+    });
+
+    if (!state.cart.length) {
+        list.innerHTML = "<li>No tickets yet.</li>";
+    }
+
+    $("total").textContent = `${total} ₼`;
+    $("topCart").textContent = `Cart: ${state.cart.length} · ${total} ₼`;
+}
+
 buildVenue();
+render();

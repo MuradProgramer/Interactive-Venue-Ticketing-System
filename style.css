@@ -131,6 +131,25 @@ button {
     margin-left: 20px;
 }
 
+.seat.taken {
+    background: var(--taken);
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.seat.in-cart {
+    background: var(--accent);
+}
+
+.seat.inspected {
+    box-shadow: 0 0 0 2px var(--ring);
+}
+
+.seat:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+
 .side {
     flex: 1 1 320px;
     max-width: 400px;
