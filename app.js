@@ -102,6 +102,16 @@ function buildVenue() {
     });
 }
 
+root.addEventListener("click", (e) => {
+    const btn = e.target.closest(".seat");
+
+    if (!btn) return;
+
+    state.inspected = btn.dataset.id;
+
+    render();
+});
+
 const $ = (id) => document.getElementById(id);
 
 function render() {
