@@ -102,6 +102,23 @@ function buildVenue() {
     });
 }
 
+function buildLegend() {
+    const legend = document.getElementById("legend");
+    const first = legend.firstChild;
+
+    SECTIONS.forEach((sec) => {
+        const li = document.createElement("li");
+
+        const sw = document.createElement("span");
+        sw.className = "swatch";
+        sw.style.setProperty("--color", sec.color);
+
+        li.append(sw, `${sec.name} ${sec.price} ₼`);
+
+        legend.insertBefore(li, first);
+    });
+}
+
 root.addEventListener("click", (e) => {
     const btn = e.target.closest(".seat");
 
@@ -190,4 +207,5 @@ function render() {
 }
 
 buildVenue();
+buildLegend();
 render();
