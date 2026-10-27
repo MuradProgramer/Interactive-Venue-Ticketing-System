@@ -206,6 +206,83 @@ function render() {
     $("topCart").textContent = `Cart: ${state.cart.length} · ${total} ₼`;
 }
 
+const STEP = 40;
+const MIN_Z = 0.4;
+const MAX_Z = 2;
+const LIMIT = 400;
+
+const clamp = (v, min, max) => Math.min(max, Math.max(min, v));
+
+function applyView() {
+    const v = state.view;
+
+    v.zoom = clamp(v.zoom, MIN_Z, MAX_Z);
+    v.x = clamp(v.x, -LIMIT, LIMIT);
+    v.y = clamp(v.y, -LIMIT, LIMIT);
+
+    $("mapInner").style.transform =
+        `translate(${v.x}px, ${v.y}px) scale(${v.zoom})`;
+}
+
+const move = (dx, dy) => {
+    state.view.x += dx;
+    state.view.y += dy;
+
+    applyView();
+};
+
+let targetZoom = state.view.zoom;
+let zoomAnim = null;
+
+function animateZoom() {
+    const v = state.view;
+    const diff = targetZoom - v.zoom;
+
+    if (Math.abs(diff) < 0.001) {
+        v.zoom = targetZoom;
+
+        applyView();
+
+        zoomAnim = null;
+
+        return;
+    }
+
+    v.zoom += diff * 0.18;
+
+    applyView();
+
+    zoomAnim = requestAnimationFrame(animateZoom);
+}
+
+function setTargetZoom(z) {
+    targetZoom = clamp(z, MIN_Z, MAX_Z);
+
+    if (!zoomAnim) {
+        zoomAnim = requestAnimationFrame(animateZoom);
+    }
+}
+
+const zoomBy = (d) => setTargetZoom(targetZoom + d);
+
+$("zoomIn").onclick = () => zoomBy(0.2);
+$("zoomOut").onclick = () => zoomBy(-0.2);
+
+$("up").onclick = () => move(0, STEP);
+$("down").onclick = () => move(0, -STEP);
+$("left").onclick = () => move(STEP, 0);
+$("right").onclick = () => move(-STEP, 0);
+
+$("reset").onclick = () => {
+    state.view.x = 0;
+    state.view.y = 0;
+
+    setTargetZoom(defaultZoom());
+
+    applyView();
+};
+
 buildVenue();
 buildLegend();
 render();
+applyView();

@@ -150,6 +150,13 @@ button {
     outline-offset: 2px;
 }
 
+.controls button:focus-visible,
+.primary:focus-visible,
+.remove:focus-visible {
+    outline: 2px solid var(--ring);
+    outline-offset: 2px;
+}
+
 .legend {
     list-style: none;
     margin: 0 0 16px;
@@ -190,6 +197,33 @@ button {
 .swatch.inspected {
     background: var(--border-2);
     box-shadow: 0 0 0 2px var(--ring);
+}
+
+.controls {
+    position: absolute;
+    right: 16px;
+    bottom: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 44px);
+    gap: 6px;
+    padding: 8px;
+    border-radius: 14px;
+    background: var(--overlay);
+    border: 1px solid var(--line);
+}
+
+.controls button {
+    height: 44px;
+    padding: 0;
+    border-radius: 10px;
+    border: 1px solid var(--border-2);
+    background: var(--surface);
+    color: var(--text);
+    font-size: 18px;
+}
+
+.controls button:hover {
+    background: var(--surface-2);
 }
 
 .side {
@@ -281,4 +315,9 @@ button {
     margin-top: 16px;
     font-size: 18px;
     font-weight: 700;
+}
+
+.controls .txt {
+    font-size: 12px;
+    font-weight: 600;
 }
