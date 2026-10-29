@@ -129,6 +129,25 @@ root.addEventListener("click", (e) => {
     render();
 });
 
+function addToCart() {
+    const seat = seats[state.inspected];
+
+    if (!seat || seat.taken) return;
+    if (state.cart.includes(seat.id)) return;
+
+    state.cart.push(seat.id);
+
+    render();
+}
+
+function removeFromCart(id) {
+    state.cart = state.cart.filter((x) => x !== id);
+
+    render();
+}
+
+document.getElementById("addBtn").addEventListener("click", addToCart);
+
 const $ = (id) => document.getElementById(id);
 
 function render() {
