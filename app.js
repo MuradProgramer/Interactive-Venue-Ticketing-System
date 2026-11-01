@@ -33,6 +33,8 @@ const SECTIONS = [
     }
 ];
 
+const STORAGE_KEY = "ticketing.cart.v1";
+
 const seats = {};
 
 const state = {
@@ -137,16 +139,40 @@ function addToCart() {
 
     state.cart.push(seat.id);
 
+    saveCart();
     render();
 }
 
 function removeFromCart(id) {
     state.cart = state.cart.filter((x) => x !== id);
 
+    saveCart();
     render();
 }
 
 document.getElementById("addBtn").addEventListener("click", addToCart);
+
+function saveCart() {
+    try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(state.cart));
+    } catch (err) {
+        console.warn("Could not save cart", err);
+    }
+}
+
+function loadCart() {
+    try {
+        const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+        if (!Array.isArray(saved)) return;
+
+        state.cart = [...new Set(saved)].filter(
+            (id) => seats[id] && !seats[id].taken
+        );
+    } catch (err) {
+        state.cart = [];
+    }
+}
 
 const $ = (id) => document.getElementById(id);
 
@@ -303,5 +329,6 @@ $("reset").onclick = () => {
 
 buildVenue();
 buildLegend();
+loadCart();
 render();
 applyView();
