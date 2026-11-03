@@ -327,6 +327,76 @@ $("reset").onclick = () => {
     applyView();
 };
 
+// Bonus
+
+const map = $("map");
+
+map.addEventListener("wheel", (e) => {
+    e.preventDefault();
+
+    let dy = e.deltaMode === 1
+        ? e.deltaY * 16
+        : e.deltaY;
+
+    dy = clamp(dy, -60, 60);
+
+    const speed = e.ctrlKey ? 0.01 : 0.0015;
+
+    setTargetZoom(targetZoom * Math.exp(-dy * speed));
+}, {
+    passive: false
+});
+
+let drag = null;
+
+map.addEventListener("pointerdown", (e) => {
+    if (e.target.closest(".controls")) return;
+
+    drag = {
+        px: e.clientX,
+        py: e.clientY,
+        x: state.view.x,
+        y: state.view.y,
+        moved: false
+    };
+});
+
+window.addEventListener("pointermove", (e) => {
+    if (!drag) return;
+
+    const dx = e.clientX - drag.px;
+    const dy = e.clientY - drag.py;
+
+    if (Math.abs(dx) + Math.abs(dy) > 4) {
+        drag.moved = true;
+    }
+
+    if (drag.moved) {
+        state.view.x = drag.x + dx;
+        state.view.y = drag.y + dy;
+
+        applyView();
+    }
+});
+
+let justDragged = false;
+
+window.addEventListener("pointerup", () => {
+    justDragged = !!(drag && drag.moved);
+
+    drag = null;
+
+    setTimeout(() => {
+        justDragged = false;
+    }, 0);
+});
+
+map.addEventListener("click", (e) => {
+    if (justDragged) {
+        e.stopPropagation();
+    }
+}, true);
+
 buildVenue();
 buildLegend();
 loadCart();
