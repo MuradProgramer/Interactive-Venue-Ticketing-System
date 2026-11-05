@@ -324,3 +324,39 @@ button {
     font-size: 12px;
     font-weight: 600;
 }
+
+@media (max-width: 980px) {
+    .side {
+        flex: 1 1 100%;
+        max-width: none;
+        min-width: 0;
+        width: 100%;
+        height: auto;
+        position: static;
+    }
+
+    .side .card:last-child {
+        flex: none;
+        display: block;
+    }
+
+    #cartList {
+        flex: none;
+        max-height: 280px;
+        overflow-y: auto;
+    }
+}
+
+@media (max-width: 700px) {
+    .page {
+        padding: 16px;
+    }
+
+    .topbar {
+        padding: 0 16px;
+    }
+
+    .map {
+        height: 460px;
+    }
+}
