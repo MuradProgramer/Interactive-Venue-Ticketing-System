@@ -5,11 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Venue Ticketing</title>
     <link rel="stylesheet" href="style.css">
+    <script>
+        try {
+            if (localStorage.getItem("ticketing.theme.v1") === "light") {
+                document.documentElement.dataset.theme = "light";
+            }
+        } catch (err) {}
+    </script>
 </head>
 <body>
     <header class="topbar">
         <div class="logo">Tick <span>IT</span></div>
-        <div id="topCart">Cart: 0 · 0 ₼</div>
+        <div class="topbar-right">
+            <div id="topCart">Cart: 0 · 0 ₼</div>
+
+            <button id="themeToggle" class="theme-toggle" aria-label="Switch to light mode">☀</button>
+        </div>
     </header>
 
     <main class="page">

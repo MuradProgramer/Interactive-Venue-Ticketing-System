@@ -402,3 +402,40 @@ buildLegend();
 loadCart();
 render();
 applyView();
+
+const THEME_KEY = "ticketing.theme.v1";
+
+function applyTheme(theme) {
+    const btn = $("themeToggle");
+
+    document.documentElement.dataset.theme = theme;
+
+    btn.textContent = theme === "dark" ? "☀" : "☾";
+
+    btn.setAttribute(
+        "aria-label",
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+    );
+}
+
+function loadTheme() {
+    try {
+        return localStorage.getItem(THEME_KEY) === "light" ? "light" : "dark";
+    } catch (err) {
+        return "dark";
+    }
+}
+
+$("themeToggle").addEventListener("click", () => {
+    const next = document.documentElement.dataset.theme === "light" ? "dark" : "light";
+
+    applyTheme(next);
+
+    try {
+        localStorage.setItem(THEME_KEY, next);
+    } catch (err) {
+        console.warn("Could not save theme", err);
+    }
+});
+
+applyTheme(loadTheme());
